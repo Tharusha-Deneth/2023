@@ -1,0 +1,304 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>To My Love 💌</title>
+  <style>
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+
+    body, html {
+      height: 100%;
+      font-family: 'Segoe UI', sans-serif;
+      overflow: hidden;
+      position: relative;
+    }
+
+    .background-slider {
+      position: fixed;
+      top: 0;
+      left: 0;
+      height: 100%;
+      width: 100%;
+      z-index: -2;
+      overflow: hidden;
+    }
+
+    .background-slider img {
+      position: absolute;
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      opacity: 0;
+      transition: opacity 2s ease-in-out;
+    }
+
+    .background-slider img.active {
+      opacity: 1;
+    }
+
+    .overlay {
+      position: fixed;
+      top: 0;
+      left: 0;
+      height: 100%;
+      width: 100%;
+      background: linear-gradient(to right, #ff9a9e88, #fad0c488);
+      z-index: -1;
+    }
+
+    .container {
+      position: relative;
+      width: 90%;
+      max-width: 600px;
+      height: 400px;
+      margin: auto;
+      top: 50%;
+      transform: translateY(-50%);
+    }
+
+    .envelope {
+      position: absolute;
+      width: 100%;
+      height: 100%;
+      background: #eb4734;
+      border-radius: 10px;
+      box-shadow: 0 10px 20px rgba(0, 0, 0, 0.3);
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      flex-direction: column;
+      transition: all 0.6s ease;
+      z-index: 3;
+    }
+
+    .flap {
+      position: absolute;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 50%;
+      background: #e73b28;
+      clip-path: polygon(0 0, 100% 0, 50% 100%);
+      transition: transform 0.6s ease;
+      transform-origin: top;
+      z-index: 4;
+    }
+
+    .letter {
+      position: absolute;
+      top: 50%;
+      left: 50%;
+      width: 90%;
+      max-width: 750px;
+      height: 800px;
+      transform: translate(-50%, -50%) scale(0.1);
+      opacity: 0;
+      background-image: url("d3.jpg");
+      border-radius: 8px;
+      box-shadow: 0 0 20px rgba(0, 0, 0, 0.3);
+      padding: 40px 30px;
+      box-sizing: border-box;
+      transition: all 1s ease;
+      overflow-y: auto;
+      z-index: 2;
+      display: flex;
+      flex-direction: column;
+      justify-content: space-between;
+    }
+
+    .letter.visible {
+      opacity: 1;
+      transform: translate(-50%, -50%) scale(1);
+    }
+
+    .open-button, .surprise-button {
+      padding: 12px 25px;
+      background-color: #f7f7f7;
+      color: #e74c3c;
+      margin-top: 30px;
+      border: none;
+      font-size: 20px;
+      font-weight: bold;
+      border-radius: 30px;
+      cursor: pointer;
+      box-shadow: 0 4px 10px rgba(0,0,0,0.2);
+      transition: all 0.3s ease;
+    }
+
+    .open-button:hover, .surprise-button:hover {
+      background-color: #fce4e4;
+    }
+
+    .text {
+      font-size: 18px;
+      font-weight: bold;
+      line-height: 1.6;
+      color: #ffffff;
+      text-shadow: 0 0 10px black;
+      white-space: pre-wrap;
+      border: none;
+      outline: none;
+    }
+
+    .kiss {
+      width: 80px;
+      height: auto;
+      margin-top: 20px;
+      align-self: flex-end;
+    }
+
+    .surprise-button {
+      margin-top: 20px;
+      display: none;
+    }
+
+    @media (max-width: 600px) {
+      .letter {
+        height: 80vh;
+        padding: 20px;
+      }
+
+      .text {
+        font-size: 16px;
+      }
+
+      .kiss {
+        width: 60px;
+      }
+    }
+
+
+.heart {
+  position: fixed;
+  bottom: -30px;
+  width: 15px;
+  height: 15px;
+  background: red;
+  transform: rotate(-45deg);
+  animation: floatHeart 10s linear infinite;
+  opacity: 0.8;
+  z-index: 0;
+}
+
+.heart::before,
+.heart::after {
+  content: '';
+  position: absolute;
+  width: 15px;
+  height: 15px;
+  background: red;
+  border-radius: 50%;
+}
+
+.heart::before {
+  top: -7.5px;
+  left: 0;
+}
+
+.heart::after {
+  left: 7.5px;
+  top: 0;
+}
+
+@keyframes floatHeart {
+  0% {
+    transform: translateY(0) rotate(-45deg);
+    opacity: 1;
+  }
+  100% {
+    transform: translateY(-120vh) rotate(-45deg);
+    opacity: 0;
+  }
+}
+
+
+  </style>
+</head>
+<body>
+  <!-- Background Slider -->
+  <div class="background-slider" id="slider">
+    <img src="d3.jpg" class="active" />
+    <img src="d4.jpg" />
+    <img src="d5.jpg" />
+    <img src="d3.jpg" />
+    <img src="d5.jpg" />
+  </div>
+  <div class="overlay"></div>
+
+  <div class="container">
+    <div class="envelope" id="envelope">
+      <div class="flap" id="flap"></div>
+      <button class="open-button" id="openBtn">Open💌</button>
+    </div>
+
+    <div class="letter" id="letter">
+      <div class="text" id="typedText"></div>
+      <a href="fire.html"><button class="surprise-button" id="surpriseBtn" >Tap 🎁</button></a>
+    </div>
+  </div>
+
+  <script>
+    // Background slider
+    const slides = document.querySelectorAll('.background-slider img');
+    let currentSlide = 0;
+    setInterval(() => {
+      slides[currentSlide].classList.remove('active');
+      currentSlide = (currentSlide + 1) % slides.length;
+      slides[currentSlide].classList.add('active');
+    }, 5000);
+
+    // Letter logic
+    const openBtn = document.getElementById('openBtn');
+    const envelope = document.getElementById('envelope');
+    const flap = document.getElementById('flap');
+    const letter = document.getElementById('letter');
+    const typedText = document.getElementById('typedText');
+    const surpriseBtn = document.getElementById('surpriseBtn');
+
+    const message = `My Dearest Love,
+
+On this beautiful day, I want you to know how deeply you're cherished.
+
+Your smile is my sunshine, your heart is my home, and your love is the most precious gift I've ever received.
+
+Every moment with you is a memory I treasure forever. 💖
+
+Your smile heals me, your love gives me life. I fall for you more every day. 
+You’re not just my girlfriend you’re my everything, my queen, my mom, forever.
+
+I love you more than words can ever express. Happy Birthday, my angel.❤️❤️❤️❤️
+
+You are my everything, my eyes.`;
+
+    function typeText(text, element, delay = 50) {
+      let i = 0;
+      function type() {
+        if (i < text.length) {
+          element.innerHTML += text.charAt(i);
+          i++;
+          setTimeout(type, delay);
+        } else {
+          surpriseBtn.style.display = 'inline-block';
+        }
+      }
+      type();
+    }
+
+    openBtn.addEventListener('click', () => {
+      flap.style.transform = 'rotateX(-180deg)';
+      envelope.style.opacity = '0';
+      setTimeout(() => {
+        envelope.style.display = 'none';
+        letter.classList.add('visible');
+        typeText(message, typedText);
+      }, 800);
+    });
+ 
+  </script>
+</body>
+</html>
